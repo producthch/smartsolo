@@ -2,388 +2,437 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>myFINPLAN</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>myGOAL</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); padding: 1.5rem; }
-        input, select { border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem; width: 100%; margin-top: 0.25rem; outline-color: #2563eb; }
-        label { font-weight: 600; font-size: 0.875rem; color: #475569; }
-        .section-title { border-left: 4px solid #2563eb; padding-left: 0.75rem; margin-bottom: 1rem; font-weight: 700; color: #1e293b; }
-        .btn-primary { background-color: #2563eb; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; }
-        .btn-primary:hover { background-color: #1d4ed8; transform: translateY(-1px); }
-        .btn-outline { border: 1px solid #e2e8f0; padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; background: white; cursor: pointer; }
-        .btn-outline:hover { background-color: #f1f5f9; border-color: #2563eb; }
-        .result-box { background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.75rem; padding: 1.25rem; }
-        .asset-entry { border: 1px solid #f1f5f9; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; position: relative; background: #fdfdfd; }
-        .remove-btn { color: #ef4444; font-size: 0.75rem; font-weight: 700; cursor: pointer; float: right; margin-bottom: 5px; }
-        .remove-btn:hover { text-decoration: underline; }
+        :root {
+            --primary-deep: #1b5e20; /* Emerald Deep */
+            --primary-gold: #c5a059; /* Muted Gold */
+            --primary-soft: #f1f8e9;
+            --bg-elegant: #fafafa;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --white: #ffffff;
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg-elegant); 
+            margin: 0; 
+            padding: 0; 
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .header { 
+            background: linear-gradient(135deg, var(--primary-deep), #2e7d32);
+            color: var(--white); 
+            padding: 30px 15px; 
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 { 
+            font-size: 1.8rem; 
+            margin: 0; 
+            letter-spacing: 4px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .main-content {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 10px 15px 60px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .input-grid { 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-group label { 
+            font-size: 0.65rem; 
+            font-weight: 700; 
+            color: var(--primary-gold); 
+            margin-bottom: 8px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group input { 
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background-color: #fcfcfc;
+            padding: 14px;
+            font-size: 1rem; 
+            outline: none; 
+            transition: all 0.3s ease;
+            width: 100%;
+            color: var(--text-main);
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1);
+        }
+
+        .btn-calc { 
+            background-color: var(--primary-deep); 
+            color: var(--white); 
+            border: none; 
+            padding: 16px; 
+            border-radius: 14px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            width: 100%;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn-calc:hover {
+            background-color: #0e3d13;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--primary-deep);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .analysis-note {
+            background-color: var(--primary-soft);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--primary-deep);
+            margin-top: 15px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .chart-container {
+            height: 280px;
+        }
+
+        .table-container { 
+            overflow-x: auto; 
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 0.85rem; 
+        }
+
+        th { 
+            padding: 15px 10px; 
+            color: var(--text-muted);
+            font-weight: 600;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+        }
+
+        td { 
+            padding: 15px 10px; 
+            text-align: right; 
+            border-bottom: 1px solid #f9f9f9; 
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .suggestion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .inst-item {
+            padding: 18px;
+            border-radius: 15px;
+            border: 1px solid #f0f0f0;
+            transition: transform 0.2s;
+        }
+
+        .inst-item h4 {
+            margin: 0 0 8px 0;
+            color: var(--primary-deep);
+            font-size: 1rem;
+        }
+
+        .inst-item p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        footer {
+            background-color: #121212;
+            color: #666;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .disclaimer {
+            font-size: 0.7rem;
+            max-width: 600px;
+            margin: 0 auto 25px;
+            line-height: 1.8;
+        }
+
+        .copyright {
+            color: var(--primary-gold);
+            font-weight: 300;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+        }
+
+        @media (min-width: 768px) {
+            .input-grid { grid-template-columns: repeat(4, 1fr); }
+            .suggestion-list { grid-template-columns: repeat(2, 1fr); display: grid; }
+            .chart-container { height: 350px; }
+            table { font-size: 0.95rem; }
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-5xl mx-auto">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-slate-800">myFINPLAN | Life Planning Calculator</h1>
-            <p class="text-slate-500">Rancang masa hadapan persaraan anda dengan bijak.</p>
-        </header>
+<body>
 
-        <div class="space-y-8">
-            <!-- Bahagian 1: Persaraan & Pendapatan -->
-            <div class="card">
-                <h2 class="section-title text-xl">1. Persaraan & Pendapatan</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label>Umur Sekarang</label>
-                        <input type="number" id="currentAge" value="30">
-                    </div>
-                    <div>
-                        <label>Umur Bersara</label>
-                        <input type="number" id="retireAge" value="60">
-                    </div>
-                    <div>
-                        <label>Pendapatan Bulanan Semasa (RM)</label>
-                        <input type="number" id="currentIncome" value="5000">
-                    </div>
-                    <div>
-                        <label>Jangkaan Kenaikan Gaji Tahunan (%)</label>
-                        <input type="number" id="incomeGrowth" value="3" step="0.1">
-                    </div>
-                    <div>
-                        <label>Bajet Bulanan Masa Kini (RM)</label>
-                        <input type="number" id="monthlyExpense" value="3000">
-                    </div>
-                    <div>
-                        <label>Kadar Inflasi Tahunan (%)</label>
-                        <input type="number" id="inflationRetire" value="4" step="0.1">
-                    </div>
-                    <div>
-                        <label>Jangka Hayat (Umur)</label>
-                        <input type="number" id="lifeExpectancy" value="80">
-                    </div>
-                    <div>
-                        <label>Kos Kesihatan Tahunan Kini (RM)</label>
-                        <input type="number" id="currentHealthCost" value="3000">
-                    </div>
-                    <div>
-                        <label>Inflasi Kesihatan Tahunan (%) <span class="text-[10px] text-slate-500 font-normal">Biasanya 2-3% > inflasi am</span></label>
-                        <input type="number" id="inflationHealth" value="5" step="0.1">
-                    </div>
-                    <div>
-                        <label>Kadar Pulangan Semasa Bersara (%) <span class="text-[10px] text-slate-500 font-normal">Kaedah SWR</span></label>
-                        <input type="number" id="swrRate" value="5" step="0.1">
-                    </div>
-                </div>
+<div class="header">
+    <h1>myGOAL</h1>
+    <p>Perancangan Kewangan Peribadi Anda</p>
+</div>
+
+<div class="main-content">
+    <!-- INPUT CARD -->
+    <div class="card">
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Umur Semasa</label>
+                <input type="number" id="currentAge" value="25">
             </div>
-
-            <!-- Bahagian 2: Aset Sedia Ada -->
-            <div class="card">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="section-title text-xl mb-0">2. Kewangan & Instrumen Sedia Ada</h2>
-                    <button onclick="addAssetPrompt()" class="btn-outline text-blue-600">+ Tambah Instrumen</button>
-                </div>
-                
-                <div id="assetsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Loaded via window.onload -->
-                </div>
-
-                <div class="mt-8 flex justify-center">
-                    <button onclick="calculateAll()" class="btn-primary w-full md:w-1/2 shadow-lg shadow-blue-200">Kira & Jana Laporan</button>
-                </div>
+            <div class="input-group">
+                <label>Sasaran (RM)</label>
+                <input type="number" id="targetBalance" value="100000">
+            </div>
+            <div class="input-group">
+                <label>Pulangan %</label>
+                <input type="number" id="annualReturn" value="6" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>Umur Pencen</label>
+                <input type="number" id="retireAge" value="60">
             </div>
         </div>
-
-        <!-- Result Section -->
-        <div id="results" class="mt-10 space-y-8 hidden">
-            <div class="card bg-slate-50 border-2 border-blue-100">
-                <h2 class="text-2xl font-bold text-blue-800 mb-4 text-center">Keputusan Analisis & Laporan</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="result-box text-center">
-                        <h3 class="font-bold text-sm mb-2 text-slate-600">Lebihan Tunai (Terkumpul)</h3>
-                        <p id="resTotalIncome" class="text-xl font-bold text-emerald-700">RM 0.00</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Gaji bersih terkumpul (tanpa pelaburan semula) sehingga bersara.</p>
-                    </div>
-                    <div class="result-box text-center">
-                        <h3 class="font-bold text-sm mb-2 text-slate-600">Sasaran Persaraan</h3>
-                        <p id="resRetireTarget" class="text-xl font-bold text-slate-800">RM 0.00</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Dana sasaran menggunakan kaedah "Safe Withdrawal Rate".</p>
-                    </div>
-                    <div class="result-box text-center border-orange-200 bg-orange-50">
-                        <h3 class="font-bold text-sm mb-2 text-orange-800">Ketahanan Dana</h3>
-                        <p id="resEnduranceYears" class="text-xl font-bold text-orange-700">0 Tahun</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Ketahanan baki aset persaraan anda.</p>
-                    </div>
-                </div>
-
-                <div class="mt-6 p-4 border-t border-slate-200">
-                    <h3 class="font-bold text-lg mb-2">Status Kewangan Keseluruhan</h3>
-                    <div class="flex items-center space-x-2">
-                        <span id="statusBadge" class="px-3 py-1 rounded-full text-sm font-bold"></span>
-                        <span id="resTotalNeeded" class="text-lg font-semibold"></span>
-                    </div>
-                    <p id="resEnduranceDesc" class="mt-3 text-slate-700 font-medium"></p>
-                </div>
-            </div>
-
-            <!-- Suggestion Section -->
-            <div id="suggestionBox" class="card">
-                <h2 class="section-title text-xl text-blue-600">Pelan Cadangan Penambahbaikan</h2>
-                <p class="text-sm text-slate-600 mb-4">Jika anda melaburkan lebihan tunai bulanan anda, berikut adalah unjuran nilai pelaburan selama 10 tahun:</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-100 text-slate-700">
-                            <tr>
-                                <th class="p-3">Opsi Pelaburan</th>
-                                <th class="p-3">Jangkaan Pulangan</th>
-                                <th class="p-3">Anggaran Nilai (FV) - 10 Thn</th>
-                                <th class="p-3">Kelebihan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="suggestionTable" class="divide-y divide-slate-100">
-                            <!-- Dynamic suggestions -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <footer class="mt-12 text-center text-slate-400 text-sm pb-8">
-            DISCLAIMER: Anggaran sahaja untuk rujukan dan panduan. Bukan nasihat kewangan dan hasil sebenar mungkin berbeza.<p>Ingin membangunkan aplikasi interaktif seperti ini mengikut keperluan anda? Hubungi web developer untuk perbincangan lanjut © HCH.</p>
-        </footer>
+        <button class="btn-calc" onclick="calculate()">MULA ANALISIS</button>
     </div>
 
-    <!-- Simple Custom Modal for adding assets -->
-    <div id="assetModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-xl w-80 shadow-2xl">
-            <h3 class="font-bold text-lg mb-4">Tambah Instrumen</h3>
-            <label>Nama Instrumen</label>
-            <input type="text" id="newAssetName" placeholder="cth: Saham Global" class="mb-4">
-            <div class="flex justify-end space-x-2">
-                <button onclick="closeModal()" class="btn-outline">Batal</button>
-                <button onclick="confirmAddAsset()" class="btn-primary">Tambah</button>
-            </div>
+    <!-- CHART CARD -->
+    <div class="section-header"><span>📊</span> ANALISIS SIMPANAN</div>
+    <div class="card">
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="analysis-note">
+            <strong>💡 Nota Analisis:</strong> 
+            Perhatikan graf di atas. Semakin lewat anda mula menyimpan (umur meningkat), semakin besar nilai RM yang perlu diperuntukkan setiap bulan. Masa adalah aset paling berharga dalam pelaburan; bermula awal membolehkan kuasa faedah kompaun bekerja untuk anda.
         </div>
     </div>
 
-    <script>
-        window.onload = function() {
-            addAsset('KWSP', 50000, 1000, 5.5, false);
-            addAsset('ASB', 10000, 200, 5.0, false);
-            addAsset('Tabung Haji', 5000, 100, 3.5, false);
-            addAsset('Simpanan Bank', 2000, 50, 2.0, false);
-            addAsset('Simpanan Emas', 0, 100, 9.0, false);
-        };
-
-        function formatRM(val) {
-            if (isNaN(val)) return "RM 0.00";
-            return "RM " + parseFloat(val).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-
-        function calculateFV(pv, rate, years) {
-            pv = parseFloat(pv) || 0;
-            rate = parseFloat(rate) || 0;
-            years = parseFloat(years) || 0;
-            return pv * Math.pow((1 + (rate/100)), Math.max(0, years));
-        }
-
-        function calculateAnnuityFV(pmt, rate, years) {
-            pmt = parseFloat(pmt) || 0;
-            rate = parseFloat(rate) || 0;
-            years = parseFloat(years) || 0;
-            if (years <= 0) return 0;
-            const r = rate / 100 / 12;
-            const n = years * 12;
-            if (r === 0) return pmt * n;
-            return pmt * ((Math.pow(1 + r, n) - 1) / r);
-        }
-
-        // Fungsi ini kini hanya mengira jumlah tunai terkumpul (invRate = 0)
-        function calculateSimpleSurplusAccumulation(monthlyIncome, monthlyExpense, incGrowth, infRate, years) {
-            let totalAccumulated = 0;
-            let currentMonthlyIncome = monthlyIncome;
-            let currentMonthlyExpense = monthlyExpense;
-
-            for (let i = 0; i < years * 12; i++) {
-                let surplus = currentMonthlyIncome - currentMonthlyExpense;
-                if (surplus < 0) surplus = 0;
-                
-                totalAccumulated += surplus; // Tiada kadar pulangan pelaburan (0%)
-
-                if ((i + 1) % 12 === 0) {
-                    currentMonthlyIncome *= (1 + (incGrowth / 100));
-                    currentMonthlyExpense *= (1 + (infRate / 100));
-                }
-            }
-            return totalAccumulated;
-        }
-
-        function addAssetPrompt() {
-            document.getElementById('assetModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('assetModal').classList.add('hidden');
-        }
-
-        function confirmAddAsset() {
-            const name = document.getElementById('newAssetName').value || 'Instrumen Baru';
-            addAsset(name, 0, 0, 5.0);
-            document.getElementById('newAssetName').value = '';
-            closeModal();
-        }
-
-        function addAsset(labelName, val, monthly, rate, removable = true) {
-            const container = document.getElementById('assetsContainer');
-            const div = document.createElement('div');
-            div.className = 'asset-entry';
-            div.innerHTML = `
-                ${removable ? '<span class="remove-btn" onclick="this.parentElement.remove()">Padam</span>' : ''}
-                <div class="font-bold text-sm text-blue-600 mb-2">${labelName}</div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label>Baki Semasa (RM)</label>
-                        <input type="number" class="assetValue" value="${val}">
-                    </div>
-                    <div>
-                        <label>Simpanan/Bln (RM)</label>
-                        <input type="number" class="assetMonthly" value="${monthly}">
-                    </div>
-                    <div class="col-span-2">
-                        <label>Jangkaan Pulangan (%)</label>
-                        <input type="number" class="assetReturn" value="${rate}" step="0.1">
-                    </div>
-                </div>
-            `;
-            container.appendChild(div);
-        }
-
-        function calculateAll() {
-            try {
-                const curAge = parseFloat(document.getElementById('currentAge').value) || 0;
-                const retAge = parseFloat(document.getElementById('retireAge').value) || 0;
-                const curIncome = parseFloat(document.getElementById('currentIncome').value) || 0;
-                const incGrowth = parseFloat(document.getElementById('incomeGrowth').value) || 0;
-                const monthlyExp = parseFloat(document.getElementById('monthlyExpense').value) || 0;
-                const infRetire = parseFloat(document.getElementById('inflationRetire').value) || 0;
-                const lifeExp = parseFloat(document.getElementById('lifeExpectancy').value) || 0;
-                const currentHealthCost = parseFloat(document.getElementById('currentHealthCost').value) || 0;
-                const inflationHealth = parseFloat(document.getElementById('inflationHealth').value) || 0;
-                const swrRate = parseFloat(document.getElementById('swrRate').value) || 5;
-                
-                const yearsToRetire = Math.max(0, retAge - curAge);
-
-                // Menghitung lebihan gaji tanpa pelaburan semula (0%)
-                const simpleSurplus = calculateSimpleSurplusAccumulation(curIncome, monthlyExp, incGrowth, infRetire, yearsToRetire);
-
-                let totalAssetsAtRetire = 0;
-                document.querySelectorAll('.asset-entry').forEach((entry) => {
-                    const val = parseFloat(entry.querySelector('.assetValue').value) || 0;
-                    const monthly = parseFloat(entry.querySelector('.assetMonthly').value) || 0;
-                    const rate = parseFloat(entry.querySelector('.assetReturn').value) || 0;
-                    
-                    const grownLump = calculateFV(val, rate, yearsToRetire);
-                    const grownAnnuity = calculateAnnuityFV(monthly, rate, yearsToRetire);
-                    totalAssetsAtRetire += (grownLump + grownAnnuity);
-                });
-
-                const totalWealthAtRetire = totalAssetsAtRetire + simpleSurplus;
-                const netRetirementFund = Math.max(0, totalWealthAtRetire);
-                const monthlyExpAtRetire = calculateFV(monthlyExp, infRetire, yearsToRetire);
-                const annualHealthAtRetire = calculateFV(currentHealthCost, inflationHealth, yearsToRetire);
-                
-                const annualLivingExpenseAtRetire = (monthlyExpAtRetire * 12);
-                const totalAnnualExpenseAtRetire = annualLivingExpenseAtRetire + annualHealthAtRetire;
-                
-                let totalRetireNeeded = 0;
-                if (swrRate > 0) {
-                    totalRetireNeeded = totalAnnualExpenseAtRetire / (swrRate / 100);
-                } else {
-                    const yearsInRetirement = Math.max(0, lifeExp - retAge);
-                    totalRetireNeeded = totalAnnualExpenseAtRetire * yearsInRetirement;
-                }
-
-                let yearsEndurance = 0;
-                if (totalAnnualExpenseAtRetire > 0) {
-                    yearsEndurance = (netRetirementFund / totalAnnualExpenseAtRetire).toFixed(1);
-                }
-
-                let totalMonthlySavings = Math.max(0, curIncome - monthlyExp);
-                document.querySelectorAll('.asset-entry').forEach((entry) => {
-                    totalMonthlySavings += (parseFloat(entry.querySelector('.assetMonthly').value) || 0);
-                });
-                const savingsRatio = curIncome > 0 ? ((totalMonthlySavings / curIncome) * 100).toFixed(1) : 0;
-
-                // Update UI
-                document.getElementById('results').classList.remove('hidden');
-                document.getElementById('resTotalIncome').innerText = formatRM(simpleSurplus);
-                document.getElementById('resRetireTarget').innerText = formatRM(totalRetireNeeded);
-                document.getElementById('resEnduranceYears').innerText = yearsEndurance + " Tahun";
-
-                const statusBadge = document.getElementById('statusBadge');
-                const resTotalNeeded = document.getElementById('resTotalNeeded');
-                const resEnduranceDesc = document.getElementById('resEnduranceDesc');
-
-                const totalShortfall = totalRetireNeeded - netRetirementFund;
-
-                if (totalShortfall <= 0 && netRetirementFund > 0) {
-                    statusBadge.innerText = "MENCUKUPI";
-                    statusBadge.className = "px-3 py-1 rounded-full text-sm font-bold bg-green-100 text-green-700";
-                    resTotalNeeded.innerText = "Dana Bersih Persaraan: " + formatRM(netRetirementFund);
-                    resEnduranceDesc.innerText = `Tahniah! Dana anda mencukupi untuk sara hidup masa depan, DAN kos perubatan tahunan (${formatRM(annualHealthAtRetire)} setahun) semasa bersara.`;
-                } else {
-                    statusBadge.innerText = "PERLU TAMBAHAN";
-                    statusBadge.className = "px-3 py-1 rounded-full text-sm font-bold bg-red-100 text-red-700";
-                    resTotalNeeded.innerText = "Kekurangan Dana: " + formatRM(totalShortfall);
-                    resEnduranceDesc.innerText = `Dana anda mampu bertahan selama ${yearsEndurance} tahun untuk menampung sara hidup & peningkatan kos perubatan (${formatRM(annualHealthAtRetire)}/tahun) secara pengeluaran terus. Anda memerlukan tambahan RM${totalShortfall.toLocaleString()} untuk kelestarian SWR ${swrRate}%.`;
-                }
-
-                let extraNotes = `<div class="mt-4 p-4 bg-white rounded-lg border border-slate-200"><h4 class="font-bold text-sm text-slate-800 mb-2">Analisis Simpanan:</h4><ul class="text-sm space-y-2">`;
-                
-                if (savingsRatio >= 30) {
-                    extraNotes += `<li class="flex items-start"><span class="text-green-500 mr-2">✔</span><span><strong>Nisbah Simpanan:</strong> Anda menyimpan ${savingsRatio}% daripada pendapatan bulanan (Sangat Baik).</span></li>`;
-                } else {
-                    extraNotes += `<li class="flex items-start"><span class="text-orange-500 mr-2">⚠</span><span><strong>Nisbah Simpanan:</strong> Simpanan anda adalah ${savingsRatio}% daripada pendapatan. Cuba tingkatkan ke arah 30% untuk mempercepatkan pengumpulan dana.</span></li>`;
-                }
-
-                extraNotes += `</ul></div>`;
-                resEnduranceDesc.innerHTML += extraNotes;
-
-                // Update Suggestion Table berdasarkan baki lebihan bulanan terakhir (bulan pertama)
-                let initialSurplus = curIncome - monthlyExp;
-                updateSuggestions(initialSurplus > 0 ? initialSurplus : 500);
-
-                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        function updateSuggestions(monthlyExtra) {
-            const table = document.getElementById('suggestionTable');
-            const options = [
-                { name: 'Skim Persaraan Swasta (PRS)', rate: 6, desc: 'Ideal untuk persaraan dengan insentif cukai.' },
-                { name: 'Amanah Saham (ASB/Tabung Haji)', rate: 5, desc: 'Risiko rendah, dividen stabil.' },
-                { name: 'Emas Digital', rate: 8, desc: 'Lindung nilai terhadap inflasi jangka panjang.' },
-                { name: 'Unit Trust / Saham Swasta', rate: 7.5, desc: 'Potensi pulangan lebih tinggi dengan risiko sederhana.' }
-            ];
-
-            table.innerHTML = '';
-            options.forEach(opt => {
-                const fv = calculateAnnuityFV(monthlyExtra, opt.rate, 10);
-                table.innerHTML += `
+    <!-- TABLE CARD -->
+    <div class="section-header"><span>📅</span> JADUAL STRATEGI</div>
+    <div class="card">
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td class="p-3 font-semibold">${opt.name}</td>
-                        <td class="p-3 text-emerald-600">${opt.rate}% p.a.</td>
-                        <td class="p-3 font-bold">${formatRM(fv)}</td>
-                        <td class="p-3 text-slate-500">${opt.desc}</td>
+                        <th style="text-align: center;">Mula (Umur)</th>
+                        <th>Simpanan/Bulan</th>
+                        <th>Faedah Terkumpul</th>
+                        <th>Matlamat Akhir</th>
                     </tr>
-                `;
-            });
+                </thead>
+                <tbody id="resultTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- SUGGESTION CARD -->
+    <div id="suggestionBox" class="card" style="display:none; border-top: 5px solid var(--primary-gold);">
+        <div class="section-header" style="color: var(--primary-gold);">CADANGAN INSTRUMEN</div>
+        <p id="suggestionIntro" style="font-size: 0.85rem; color: var(--text-muted);"></p>
+        <div id="instrumentList" class="suggestion-list"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="disclaimer">
+        PENAFIAN: Simulasi ini bertujuan untuk pendidikan sahaja. Anggaran adalah berdasarkan formula matematik tetap dan tidak mengambil kira faktor inflasi tahunan atau perubahan polisi ekonomi negara. Sila dapatkan nasihat profesional sebelum melakukan sebarang komitmen kewangan.
+    </div>
+    <div class="copyright">
+        DESIGNED BY HCH &bull; 2026
+    </div>
+</footer>
+
+<script>
+let myChart;
+
+const instruments = [
+    { name: "ASB / ASB 2", maxRate: 5.5, desc: "Sesuai untuk simpanan berisiko rendah dengan dividen yang kompetitif." },
+    { name: "Tabung Haji", maxRate: 3.5, desc: "Pilihan terbaik untuk umat Islam, zakat telah diselesaikan secara automatik." },
+    { name: "Emas Fizikal", maxRate: 12, desc: "Aset selamat (Safe Haven) untuk perlindungan nilai daripada inflasi jangka panjang." },
+    { name: "Unit Amanah (Equity)", maxRate: 10, desc: "Sesuai untuk mereka yang inginkan pendedahan kepada pasaran saham global." },
+    { name: "KWSP (Self-Contribution)", maxRate: 6, desc: "Manfaatkan dividen stabil dan pelepasan cukai tahunan sehingga RM6,000." },
+    { name: "ETF (S&P 500)", maxRate: 15, desc: "Pelaburan pasaran global untuk pertumbuhan agresif dalam tempoh 10-20 tahun." }
+];
+
+function calculate() {
+    const target = parseFloat(document.getElementById('targetBalance').value);
+    const annualRate = parseFloat(document.getElementById('annualReturn').value);
+    const rate = (annualRate / 100) / 12;
+    const retireAge = parseInt(document.getElementById('retireAge').value);
+    const currentAge = parseInt(document.getElementById('currentAge').value);
+    
+    const tableBody = document.getElementById('resultTable');
+    tableBody.innerHTML = '';
+    
+    let chartLabels = [];
+    let chartData = [];
+    
+    // Palet warna warni yang elegan
+    const palette = [
+        '#4db6ac', // Teal
+        '#ffa726', // Orange
+        '#9e9e9e', // Grey
+        '#f44336', // Red
+        '#00838f', // Dark Teal
+        '#795548', // Brown
+        '#2e7d32', // Green
+        '#673ab7', // Purple
+        '#e91e63', // Pink
+        '#3f51b5'  // Indigo
+    ];
+
+    for (let age = currentAge; age < retireAge; age++) {
+        let months = (retireAge - age) * 12;
+        let monthlySave = rate > 0 ? (target * rate) / (Math.pow(1 + rate, months) - 1) : target / months;
+        let totalSaved = monthlySave * months;
+        let interest = target - totalSaved;
+
+        let row = `<tr>
+            <td style="text-align: center;">${age}</td>
+            <td style="color: var(--primary-deep)">RM ${monthlySave.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td style="color: var(--primary-gold)">RM ${interest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td>RM ${target.toLocaleString()}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+
+        if (age % 5 === 0 || age === currentAge || age === retireAge - 1) {
+            chartLabels.push("Mula " + age);
+            chartData.push(monthlySave.toFixed(2));
         }
-    </script>
+    }
+
+    updateChart(chartLabels, chartData, palette);
+    showSuggestions(annualRate);
+}
+
+function showSuggestions(userRate) {
+    const box = document.getElementById('suggestionBox');
+    const intro = document.getElementById('suggestionIntro');
+    const list = document.getElementById('instrumentList');
+    
+    box.style.display = 'block';
+    list.innerHTML = '';
+    intro.innerText = `Berdasarkan matlamat pulangan ${userRate}%, kami mencadangkan instrumen berikut yang sinonim di Malaysia:`;
+    
+    const filtered = instruments.filter(i => userRate <= i.maxRate + 3);
+    filtered.forEach(inst => {
+        const item = document.createElement('div');
+        item.className = 'inst-item';
+        item.innerHTML = `<h4>${inst.name}</h4><p>${inst.desc}</p>`;
+        list.appendChild(item);
+    });
+}
+
+function updateChart(labels, data, palette) {
+    const ctx = document.getElementById('myChart').getContext('2d');
+    if (myChart) { myChart.destroy(); }
+    
+    // Gunakan warna dari palet secara berulang jika data lebih banyak daripada warna
+    const backgroundColors = data.map((_, index) => palette[index % palette.length]);
+
+    myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Komitmen Bulanan',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderRadius: 10,
+                barThickness: 'flex',
+                maxBarThickness: 40
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { display: false },
+                tooltip: { 
+                    padding: 15,
+                    backgroundColor: '#1b5e20',
+                    titleFont: { size: 14 }
+                }
+            },
+            scales: {
+                y: { 
+                    grid: { color: '#f0f0f0' }, 
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) { return 'RM' + value; }
+                    }
+                },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+window.onload = calculate;
+</script>
 </body>
 </html>
